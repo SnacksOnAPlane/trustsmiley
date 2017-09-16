@@ -13,9 +13,14 @@ var sheet_data_service_1 = require("./sheet-data.service");
 var AppComponent = (function () {
     function AppComponent(sheetDataService) {
         this.sheetDataService = sheetDataService;
+        this.recs = [];
     }
     AppComponent.prototype.getRecs = function () {
-        this.sheetDataService.getRecs().then(function (recs) { return console.log(recs); });
+        var _this = this;
+        this.sheetDataService.getRecs().then(function (recs) { return _this.parseRecs(recs); });
+    };
+    AppComponent.prototype.parseRecs = function (recs) {
+        this.recs = recs;
     };
     AppComponent.prototype.ngOnInit = function () {
         this.getRecs();

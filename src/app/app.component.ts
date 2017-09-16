@@ -8,10 +8,16 @@ import { OnInit } from '@angular/core';
 	providers: [SheetDataService]
 })
 export class AppComponent implements OnInit {
+  recs = [];
+
   constructor(private sheetDataService: SheetDataService) {}
 
   getRecs(): void {
-    this.sheetDataService.getRecs().then(recs => console.log(recs));
+    this.sheetDataService.getRecs().then(recs => this.parseRecs(recs));
+  }
+
+  parseRecs(recs: Array<Object>): void {
+    this.recs = recs;
   }
 
   ngOnInit(): void {
