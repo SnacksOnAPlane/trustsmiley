@@ -14,6 +14,12 @@ var AppComponent = (function () {
     function AppComponent(sheetDataService) {
         this.sheetDataService = sheetDataService;
     }
+    AppComponent.prototype.getRecs = function () {
+        this.sheetDataService.getRecs().then(function (recs) { return console.log(recs); });
+    };
+    AppComponent.prototype.ngOnInit = function () {
+        this.getRecs();
+    };
     return AppComponent;
 }());
 AppComponent = __decorate([

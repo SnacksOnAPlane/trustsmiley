@@ -1,8 +1,22 @@
 import { Injectable } from '@angular/core';
+import { Headers, Http, Jsonp } from '@angular/http';
+
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class SheetDataService {
-  sanitizeEntry(entry): Object {
+  private url = 'https://spreadsheets.google.com/feeds/list/1AuxOvoQMsu-IqsmDFjZvw4vgCX323YoPPx3z8N2sBeE/od6/public/values?alt=json-in-script&callback=JSONP_CALLBACK';
+
+  constructor(private http: Http, private _jsonp: Jsonp) {}
+
+  getRecs(): Promise<Object> {
+    return this._jsonp.get(this.url)
+               .toPromise()
+               .then(response => response.json().feed.entry.map((item: Object) => this.sanitizeEntry(item)))
+               .catch(this.handleError);
+  }
+
+  sanitizeEntry(entry: Object): Object {
     // basically we just want the fields that start with gsx$, and only their $t vals
     var retme = {};
     for (var k in entry) {
@@ -14,25 +28,7 @@ export class SheetDataService {
     return retme;
   }
 
-  loadReviews(reviews): void {
-    for (var i in reviews.feed.entry) {
-      var entry = sanitizeEntry(reviews.feed.entry[i]);
-      var category = entry['category'];
-      if (!$scope.categories[category]) {
-        $scope.categories[category] = [entry];
-      } else {
-        $scope.categories[category].push(entry);
-      }
-    }
-    console.log($scope.categories);
+  handleError(): void {
+    debugger;
   }
-
-	loadFromServer(): void {
-		var url = 'https://spreadsheets.google.com/feeds/list/1AuxOvoQMsu-IqsmDFjZvw4vgCX323YoPPx3z8N2sBeE/od6/public/values?alt=json-in-script';
-		url = $sce.trustAsResourceUrl(url)
-		$http.jsonp(url, {jsonpCallbackParam: 'callback'})
-		.then(function(data) {
-			loadReviews(data.data);
-		});
-	}
 }
