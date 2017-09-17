@@ -21,7 +21,10 @@ AppModule = __decorate([
             http_1.HttpModule,
             http_1.JsonpModule
         ],
-        declarations: [app_component_1.AppComponent],
+        declarations: [
+            app_component_1.AppComponent,
+            app_component_1.MapToIterable
+        ],
         bootstrap: [app_component_1.AppComponent]
     })
 ], AppModule);

@@ -1,6 +1,6 @@
 <h1>Everything is going to be OK.</h1>
 <ul>
-  <li *ngFor="let rec of recs">
-    {{ rec.name }}: {{ rec.grade }}
+  <li *ngFor="let category of categories | mapToIterable ">
+    {{ category.key }}
   </li>
 </ul>

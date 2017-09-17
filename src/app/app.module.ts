@@ -2,7 +2,8 @@ import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { JsonpModule, HttpModule }    from '@angular/http';
 
-import { AppComponent }  from './app.component';
+import { AppComponent, MapToIterable }  from './app.component';
+import {  }  from './app.component';
 
 @NgModule({
   imports:      [
@@ -10,7 +11,10 @@ import { AppComponent }  from './app.component';
     HttpModule,
     JsonpModule
   ],
-  declarations: [ AppComponent ],
+  declarations: [
+    AppComponent,
+    MapToIterable
+  ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

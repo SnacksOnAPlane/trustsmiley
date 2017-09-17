@@ -10,6 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var sheet_data_service_1 = require("./sheet-data.service");
+var MapToIterable = (function () {
+    function MapToIterable() {
+    }
+    MapToIterable.prototype.transform = function (dict) {
+        var a = [];
+        for (var key in dict) {
+            if (dict.hasOwnProperty(key)) {
+                a.push({ key: key, val: dict[key] });
+            }
+        }
+        return a;
+    };
+    return MapToIterable;
+}());
+MapToIterable = __decorate([
+    core_1.Pipe({
+        name: 'mapToIterable'
+    })
+], MapToIterable);
+exports.MapToIterable = MapToIterable;
 var AppComponent = (function () {
     function AppComponent(sheetDataService) {
         this.sheetDataService = sheetDataService;
@@ -20,7 +40,18 @@ var AppComponent = (function () {
         this.sheetDataService.getRecs().then(function (recs) { return _this.parseRecs(recs); });
     };
     AppComponent.prototype.parseRecs = function (recs) {
-        this.recs = recs;
+        this.categories = this.parseCategories(recs);
+    };
+    AppComponent.prototype.parseCategories = function (recs) {
+        var retme = new Map();
+        for (var _i = 0, recs_1 = recs; _i < recs_1.length; _i++) {
+            var rec = recs_1[_i];
+            if (!retme[rec.category]) {
+                retme[rec.category] = new Array();
+            }
+            retme[rec.category].push(rec);
+        }
+        return retme;
     };
     AppComponent.prototype.ngOnInit = function () {
         this.getRecs();
