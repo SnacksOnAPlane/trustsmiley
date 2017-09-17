@@ -2,5 +2,10 @@
 <ul>
   <li *ngFor="let category of categories | mapToIterable ">
     {{ category.key }}
+    <ul>
+      <li *ngFor="let entry of category.val">
+        {{ entry.name }}
+        </li>
+      </ul>
   </li>
 </ul>
